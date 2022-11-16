@@ -35,10 +35,10 @@ def yolov5l6_detect(yolo_model1_path, yolo_model2_path, image) :
         url = "https://drive.google.com/uc?id=1-gCmksSNAT2amukFMBTM_k7jnZWIw89B"
         output = "yolov5l6_detection_1.pt"
 
-        if not os.path.exists('/content/Korean-OCR/pt_models/'+output):
+        if not os.path.exists('./pt_models/'+output):
 
             yolo_model1_path = gdown.download(url, './pt_models/'+output, quiet=False)
-        yolo_model1_path = '/content/Korean-OCR/pt_models/'+output
+        yolo_model1_path = './pt_models/'+output
 
     else:
         yolo_model1_path = yolo_model1_path
@@ -51,10 +51,10 @@ def yolov5l6_detect(yolo_model1_path, yolo_model2_path, image) :
         url = "https://drive.google.com/uc?id=1vmHeEb1QSjGZoSzu0tolPaUo0CtUnwaD"
         output = "yolov5l6_detection_2.pt"
 
-        if not os.path.exists('/content/Korean-OCR/pt_models/'+output):
+        if not os.path.exists('./pt_models/'+output):
             
             yolo_model2_path = gdown.download(url, './pt_models/'+output, quiet=False)
-        yolo_model2_path = '/content/Korean-OCR/pt_models/'+output
+        yolo_model2_path = './pt_models/'+output
       
     else:
         yolo_model2_path = yolo_model2_path
@@ -140,10 +140,10 @@ def sr(sr_model_path, image, scale = 2, window_size=8):
       url = "https://drive.google.com/uc?id=152blAUGOsBbnUpatr3ielqHDSy306uxj"
       output = "003_realSR_BSRGAN_DFO_s64w8_SwinIR-M_x2_GAN"
 
-      if not os.path.exists('/content/Korean-OCR/pt_models/'+output):
+      if not os.path.exists('./pt_models/'+output):
         
         sr_model_path = gdown.download(url, './pt_models/'+output, quiet=False)
-      sr_model_path = '/content/Korean-OCR/pt_models/'+output
+      sr_model_path = './pt_models/'+output
       
         
     else:
@@ -194,10 +194,10 @@ def itt_model(itt_model_path, character):
         url = "https://drive.google.com/uc?id=1LnZOhv1NRy8pFLlRbp90tUW49rwg9hhE"
         output = "best_recognition.pth"
 
-        if not os.path.exists('/content/Korean-OCR/pt_models/'+output):
+        if not os.path.exists('./pt_models/'+output):
     
             itt_model_path = gdown.download(url, './pt_models/'+output, quiet=False)
-        itt_model_path = '/content/Korean-OCR/pt_models/'+output
+        itt_model_path = './pt_models/'+output
     else:
         itt_model_path = itt_model_path
     
@@ -264,10 +264,10 @@ def img_blur_text(font_path, image, bboxs, texts, mag=30):
       url = "https://drive.google.com/uc?id=1KZQ4Ys4SnJEjSWw9bcik_WRkt55ylJuS"
       output = "NanumBarunGothic.ttf"
 
-      if not os.path.exists('/content/Korean-OCR/pt_models/'+output):
+      if not os.path.exists('./pt_models/'+output):
         
         font_path = gdown.download(url, './pt_models/'+output, quiet=False)
-      font_path = '/content/Korean-OCR/pt_models/'+output
+      font_path = './pt_models/'+output
       
     else:
       font_path = font_path
@@ -299,16 +299,22 @@ def img_blur_text(font_path, image, bboxs, texts, mag=30):
         w, h = font.getsize(text)
         #text = translation(text)
         draw.text(((text_width-w)/8.0,(text_height-h)/8.0), text, 'black', font)
-        text_result.append(text)
+
+
+        #text_result.append([1000-((text_height-w)/8.0),(text_width-h)/8.0,text])
+        #text_result.append([(text_height-h)/8.0,(text_width-w)/8.0,text])
+        text_result.append([x,y,text])
+
+        text_result= sorted(text_result,key=lambda x: (x[1],x[0]),reverse=True)
         # 넣을 이미지
         add_image = canvas
 
         target.paste(im = add_image, box =(int(x),int(y)))
-    
+    print(text_result)
     # writedata.py
-    f = open("/content/Korean-OCR/results/result.txt", 'w')
+    f = open("./results/result.txt", 'w')
     for i in text_result:
-        f.write(i+"\n")
+        f.write(i[2]+"\n")
     f.close()
 
     img = np.array(target)
@@ -316,7 +322,7 @@ def img_blur_text(font_path, image, bboxs, texts, mag=30):
 
 def demo(opt):
 
-    result_path = '/content/Korean-OCR/results'
+    result_path = './results'
     
     try:
         if not os.path.exists(result_path):

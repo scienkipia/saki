@@ -45,11 +45,7 @@ def main():
     testset_Ls = ['BSRGAN']  # ['RealSRSet','DPED']
 
     model_names = ['RRDB','ESRGAN','FSSR_DPED','FSSR_JPEG','RealSR_DPED','RealSR_JPEG']
-    model_type = input("x2 or x4?")
-    if model_type == 'x2':
-        model_names = ['BSRGANx2']
-    elif model_type == 'x4':
-        model_names = ['BSRGAN']
+    model_names = ['BSRGANx2']
 
 
 

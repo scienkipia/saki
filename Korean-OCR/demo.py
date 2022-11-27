@@ -22,7 +22,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from detecta import detect_peaks
 from scipy.signal import find_peaks
 from swinir import SwinIR
 from model import TPS_SpatialTransformerNetwork, LocalizationNetwork, GridGenerator, BasicBlock, ResNet, \
